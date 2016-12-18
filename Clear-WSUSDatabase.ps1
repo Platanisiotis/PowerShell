@@ -7,7 +7,7 @@
     $cleanupScope.DeclineExpiredUpdates = $true 
     $cleanupScope.CleanupObsoleteUpdates = $true 
     $cleanupScope.CompressUpdates = $true 
-    #$cleanupScope.CleanupObsoleteComputers = $true 
+    $cleanupScope.CleanupObsoleteComputers = $true 
     $cleanupScope.CleanupUnneededContentFiles = $true 
     $cleanupManager = $wsus.GetCleanupManager(); 
     $cleanupManager.PerformCleanup($cleanupScope); 
