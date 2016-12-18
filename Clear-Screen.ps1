@@ -3,5 +3,6 @@
     [Alias("x")]
     Param
     ()
-    Set-Location \ ;Clear-Host
+    Set-Location \ 
+    Clear-Host
 }
