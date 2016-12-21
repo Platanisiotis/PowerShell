@@ -1,4 +1,4 @@
-﻿ # Requires fixing a glitch where it provides the correct and expected dates, although duplicates them  - No error checking
+﻿# Issue with the last days and first days of the month missing, Check this afternon
 Function Get-Day 
 {
     [CmdletBinding(SupportsShouldProcess=$true, 
@@ -50,18 +50,21 @@ Function Get-Day
     {}
     Process 
     {
+        $Years=@($Year)
+
         switch ($Task) 
         {
 
             LastDayOfTheMonth 
             {
-                $Years=@($Year)
+
                 foreach ($y in $Years) 
                 {
-                    $Months=@($Month)
-                    foreach ($m in $Months) 
+                    $MonthCollection=@($Month)
+
+                    foreach ($m in $MonthCollection) 
                     {
-                        If($m) 
+                        If($m)
                         {
                             if($y) 
                             {
@@ -100,13 +103,22 @@ Function Get-Day
 
             DaysInTheYear 
             {
-                $YearBehind = (get-date -Month 12).AddYears(-1)
-                $YearAhead = (get-date -Month 12).AddYears(+1)
-                for ( $i = $YearBehind; $i -lt $YearAhead ;$i=$i.AddDays(1) ) 
-                { 
-                    foreach ($m in $Month) 
+                foreach ($y in $Years) 
+                {
+                    $MonthCollection=@($Month)
+
+                    foreach ($m in $MonthCollection) 
                     {
-                        $i | ?{$_.DayOfWeek -like "$DayOfTheWeek"} | ?{$_.Month -like "$m"}
+                        $Behind = (Get-Date -Year $y -Month 1)
+                        $Ahead = (Get-Date -Year $y -Month 12)
+
+                        for ( $i = $Behind; $i -lt $Ahead ;$i=$i.AddDays(1) ) 
+                        { 
+                            foreach ($j in $m) 
+                            {
+                                $i | ?{$_.DayOfWeek -like "$DayOfTheWeek"} | ?{$_.Month -like "$j"}
+                            }
+                        }
                     }
                 }
             }
