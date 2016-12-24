@@ -13,10 +13,8 @@
 .NOTES
    For any assistance with using this script or if you have any suggestions, please contact me! 
 #>
-Function AP-Get-NTFSPermissions{
-
-    [cmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='Medium')]
-
+Function Get-NTFSPermissions
+{
     Param(
         
         # Regex to assure the input is a UNC path that ends with a backslash. This is the only thing that doesn't work in Powershell v2
@@ -37,15 +35,17 @@ Function AP-Get-NTFSPermissions{
         $Prefix = "$((get-date).ToString("yyyyMMdd"))"
     )
 
-    Begin{
+    Begin
+    {
         $Error_FolderRecurseExceptions     = $null
     }
 
-    Process {
+    Process 
+    {
 
         # Foreach path you specified in the $Paths parameter, do the following 
-        foreach ($Path in $Paths) {
-
+        foreach ($Path in $Paths) 
+        {
             $i                             = 0
             $TotalTimePerPath              = $null
             $Error_FolderRecurseExceptions = $null
@@ -57,19 +57,22 @@ Function AP-Get-NTFSPermissions{
 
 
             # Create the default header for the spreadsheet and add it to memory
-            $Measure_SpreadsheetHeaderNaming  = Measure-Command {
+            $Measure_SpreadsheetHeaderNaming  = Measure-Command 
+            {
                 $Header     = "Path,IdentityReference,AccessControlType,FileSystemRights,IsInherited"
             }
             Write-Verbose -Message "1/5 -Header content created for $Path"
 
             # Create the default file name for the spreadsheet and add it to memory
-            $Measure_SpreadsheetNaming        = Measure-Command {
+            $Measure_SpreadsheetNaming        = Measure-Command 
+            {
                 $OutPutFile = ($LogLocation+$Prefix+"_"+$($($Path.ToString().Split("\"))[-1])+".csv")
             } 
             Write-Verbose -Message "2/5 - Filename created for $Path"
 
             # Create the spreadsheet with no content apart from the header, write to disk
-            $Measure_CreateSpreadsheetHeader  = Measure-Command {
+            $Measure_CreateSpreadsheetHeader  = Measure-Command 
+            {
                 Add-Content -Value $Header -Path $OutPutFile
             }
             Write-Verbose -Message "3/5 -Spreadsheet template for $Path created"
@@ -77,19 +80,20 @@ Function AP-Get-NTFSPermissions{
             # Collect all the recursed directories under the path specified. 
             # If errors are found add t9hem to the Error_FolderRecurseExceptions variable, although silently continue
             Write-Verbose -Message "4/5 -Collecting the folder structure for $Path"
-            $Measure_CollectingFolders        = Measure-Command {
-                $Folders     = Get-ChildItem $Path -recurse -ErrorAction SilentlyContinue -ErrorVariable +Error_FolderRecurseExceptions| where {$_.psiscontainer -eq $true}
+            $Measure_CollectingFolders        = Measure-Command 
+            {
+                $Folders     = Get-ChildItem $Path -recurse -ErrorAction SilentlyContinue -ErrorVariable +Error_FolderRecurseExceptions| Where-Object {$_.psiscontainer -eq $true}
             }
             [object[]]$Error_FolderRecurseExceptionsTotal += $Error_FolderRecurseExceptions
             Write-Verbose -Message "5/5 -Folder structure for $Path collected"
 
             # For each of the recursed directories that were processe without error, do the following
-            $Measure_FolderACLCollection       = Measure-Command {
-                
-                foreach ($Folder in $Folders){
-                    
-                    if ($Folder.FullName -ne $Error_FolderRecurseExceptions.errorCategory_targetname) {
-
+            $Measure_FolderACLCollection       = Measure-Command
+            {
+                foreach ($Folder in $Folders)
+                {
+                    if ($Folder.FullName -ne $Error_FolderRecurseExceptions.errorCategory_targetname) 
+                    {
                         # Collecting the ACL under the Access property for the specific folder
                         # If errors are found add them to the Error_FolderRecurseExceptions variable, although silently continue
 	                    $ACLs = get-acl $Folder.fullname -ErrorAction SilentlyContinue | ForEach-Object {$_.Access} -ErrorAction SilentlyContinue
@@ -97,7 +101,8 @@ Function AP-Get-NTFSPermissions{
                         # Foreach of those ACLs, enumerate the folder name, and the ACEs. 
                         # The ToString and replace was added to remove "," from file names as these would be made in to new cells for the spreadsheet
                         # If you have commas in your naming convention... Uninstall Windows.
-                        Foreach ($ACL in $ACLs){
+                        Foreach ($ACL in $ACLs)
+                        {
 	                        $OutInfo = `
                                 ($Folder.Fullname).Replace(",","") + "," + `
                                 ($ACL.IdentityReference).ToString().Replace(",","")  + "," + `
@@ -107,7 +112,7 @@ Function AP-Get-NTFSPermissions{
 
                         # After collecting the ACE add it to the spreadsheet
                         Add-Content -Value $OutInfo -Path $OutPutFile
-	                }
+	                    }
                     
                     }
                 # Write verbose output for the last folder enmurated, to keep track if the function is still working
@@ -117,7 +122,8 @@ Function AP-Get-NTFSPermissions{
             }
 
             # Collect all the $Measure_* variables specified earlier and add them to a TotalTime variable
-            foreach ($TimeValue in (Get-Variable measure_* | select -ExpandProperty value)) {
+            foreach ($TimeValue in (Get-Variable measure_* | Select-Object -ExpandProperty value))
+            {
                 $TotalTimePerPath += $TimeValue 
             }
 
@@ -142,12 +148,13 @@ Function AP-Get-NTFSPermissions{
             $ProcessedFolders         = $($Folders.Count - $Error_FolderRecurseExceptions.count)
 
             # Format CollectionLogFormatted with the current object
-            $CollectionLogFormatted   = $CollectionLog | Select @{Name="Directory";                 Expression={$_.Directory}},
-                                                                @{Name="Folders Processed";         Expression={$ProcessedFolders}},
-                                                                @{Name="Folders unable to Process"; Expression={$_.ReadErrors}},
-                                                                @{Name="Spreadsheet Location";      Expression={$_.Spreadsheet}},
-                                                                @{Name="Spreadsheet Size (kb)";     Expression={$_.SpreadsheetSize / 1kb -as [int]}},
-                                                                @{Name="Time Taken";                Expression={$_.Time}}
+            $CollectionLogFormatted   = $CollectionLog | Select-Object `
+                @{Name="Directory";                 Expression={$_.Directory}},
+                @{Name="Folders Processed";         Expression={$ProcessedFolders}},
+                @{Name="Folders unable to Process"; Expression={$_.ReadErrors}},
+                @{Name="Spreadsheet Location";      Expression={$_.Spreadsheet}},
+                @{Name="Spreadsheet Size (kb)";     Expression={$_.SpreadsheetSize / 1kb -as [int]}},
+                @{Name="Time Taken";                Expression={$_.Time}}
 
             # Add the current data and time to the .log file
             (get-date).ToString("yyyy/MM/dd HH:mm:ss") | Out-File -FilePath ("$LogLocation"+"$Prefix.PermissionsLog.log") -Append
@@ -162,12 +169,13 @@ Function AP-Get-NTFSPermissions{
         $Collection | Export-Clixml -Path ("$LogLocation"+"$Prefix.PermissionsObjectLog.clixml")
 
         # Format the collection for user friendly reading. Use the clixml for more details 
-        $CollectionFormatted = $Collection | Select @{Name="Directory";                 Expression={$_.Directory}},
-                                                    @{Name="Folders Processed";         Expression={$ProcessedFolders}},
-                                                    @{Name="Folders unable to Process"; Expression={$_.ReadErrors}},
-                                                    @{Name="Spreadsheet Location";      Expression={$_.Spreadsheet}},
-                                                    @{Name="Spreadsheet Size (kb)";     Expression={$_.SpreadsheetSize / 1kb -as [int]}},
-                                                    @{Name="Time Taken";                Expression={$_.Time}}
+        $CollectionFormatted = $Collection | Select-Object `
+            @{Name="Directory";                 Expression={$_.Directory}},
+            @{Name="Folders Processed";         Expression={$ProcessedFolders}},
+            @{Name="Folders unable to Process"; Expression={$_.ReadErrors}},
+            @{Name="Spreadsheet Location";      Expression={$_.Spreadsheet}},
+            @{Name="Spreadsheet Size (kb)";     Expression={$_.SpreadsheetSize / 1kb -as [int]}},
+            @{Name="Time Taken";                Expression={$_.Time}}
 
         # Add the CollectionFormatted to the pipeline
         $CollectionFormatted
@@ -185,12 +193,12 @@ Function AP-Get-NTFSPermissions{
         $Totals | Out-File -FilePath ("$LogLocation"+"$Prefix.PermissionsLog.log") -Append
     }
 
-    End {
-        
+    End 
+    {
         # If errors were found and added to Error_FolderRecurseExceptions during the recurse process, do the following
         # This needs fixing as Error_FolderRecurseExceptionsTotal is always null due to the process
-        if ($Error_FolderRecurseExceptionsTotal -ne $null) {
-
+        if ($Error_FolderRecurseExceptionsTotal -ne $null) 
+        {
             # Create and empty array for the errors
             $Error_Collection = @()
 
@@ -199,7 +207,8 @@ Function AP-Get-NTFSPermissions{
             Write-Warning -Message "Folder recurse errors found: Import-clixml $LogLocation$Prefix.PermissionsObjectErrorLog.clixml for further information"
 
             # For each one of the errors, collect the reason, folder and exception
-            foreach ($FolderRecurseException in $Error_FolderRecurseExceptionsTotal) {
+            foreach ($FolderRecurseException in $Error_FolderRecurseExceptionsTotal) 
+            {
                 $ErrorObjectProperties = @{'Reason'          = $FolderRecurseException.ErrorCategory_reason 
                                            'Folder'          = $FolderRecurseException.ErrorCategory_TargetName
                                            'Exception'       = $FolderRecurseException.Exception.Message}
