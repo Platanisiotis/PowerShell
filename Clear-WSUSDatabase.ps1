@@ -1,4 +1,5 @@
-﻿Function Clear-WSUSDatabase 
+﻿#Requires -Version 3.0
+Function Clear-WSUSDatabase 
 {
     [reflection.assembly]::LoadWithPartialName("Microsoft.UpdateServices.Administration") | out-null 
     $wsus = [Microsoft.UpdateServices.Administration.AdminProxy]::GetUpdateServer(); 

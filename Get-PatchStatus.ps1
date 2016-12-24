@@ -1,4 +1,5 @@
-﻿Function Get-PatchStatus
+﻿#Requires -Version 3.0
+Function Get-PatchStatus
 {
     # Creating an Update Session Object and storing it in $UpdateSession
     $UpdateSession  = New-Object -ComObject Microsoft.Update.Session

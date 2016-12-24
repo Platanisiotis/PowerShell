@@ -1,4 +1,5 @@
-﻿<#
+﻿#Requires -Version 3.0
+<#
 .Synopsis
    Collects NTFS Folder ACLs 
 .DESCRIPTION

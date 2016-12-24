@@ -1,4 +1,5 @@
-﻿function Get-CheatSheet
+﻿#Requires -Version 3.0
+function Get-CheatSheet
 {
     [CmdletBinding(PositionalBinding=$false,
                   HelpUri = 'http://www.microsoft.com/',
