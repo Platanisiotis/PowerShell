@@ -1,5 +1,5 @@
-#Requires -Version 3.0
 #Requires -RunAsAdministrator
+#Requires -Version 3.0
 <#
 .Synopsis
    Collects NTFS Folder ACLs 
