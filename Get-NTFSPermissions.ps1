@@ -129,12 +129,14 @@ Function Get-NTFSPermissions
             }
 
             # Create a properties herestring with the values that make sense, this will be used for the clixml log
-            $ObjectProperties = @{'Directory'       = $Path
-                                  'Folders'         = $($Folders.Count)
-                                  'ReadErrors'      = $Error_FolderRecurseExceptions.count
-                                  'Spreadsheet'     = $OutPutFile
-                                  'SpreadsheetSize' = $((Get-ChildItem $OutPutFile).Length)
-                                  'Time'            = $($TotalTimePerPath)}
+            $ObjectProperties = @{`
+                'Directory'       = $Path
+                'Folders'         = $($Folders.Count)
+                'ReadErrors'      = $Error_FolderRecurseExceptions.count
+                'Spreadsheet'     = $OutPutFile
+                'SpreadsheetSize' = $((Get-ChildItem $OutPutFile).Length)
+                'Time'            = $($TotalTimePerPath)
+            }
 
             # Create an object, and add those values to the object
             $Object                   = New-Object -TypeName PSObject -Property $ObjectProperties
@@ -210,9 +212,11 @@ Function Get-NTFSPermissions
             # For each one of the errors, collect the reason, folder and exception
             foreach ($FolderRecurseException in $Error_FolderRecurseExceptionsTotal) 
             {
-                $ErrorObjectProperties = @{'Reason'          = $FolderRecurseException.ErrorCategory_reason 
-                                           'Folder'          = $FolderRecurseException.ErrorCategory_TargetName
-                                           'Exception'       = $FolderRecurseException.Exception.Message}
+                $ErrorObjectProperties = @{`
+                    'Reason'          = $FolderRecurseException.ErrorCategory_reason 
+                    'Folder'          = $FolderRecurseException.ErrorCategory_TargetName
+                    'Exception'       = $FolderRecurseException.Exception.Message
+                }
             
                 # Create an object, and add those values to the object
                 $Error_Object      = New-Object -TypeName PSObject -Property $ErrorObjectProperties
