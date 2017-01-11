@@ -10,8 +10,8 @@ Function Get-PatchStatus
     $Critical       = $SearchResult.updates | Where-Object { $_.MsrcSeverity -eq "Critical" }
     $important      = $SearchResult.updates | Where-Object { $_.MsrcSeverity -eq "Important" }
     $other          = $SearchResult.updates | Where-Object { $_.MsrcSeverity -eq $null }
-    Write-Verbose "Total     = $($SearchResult.updates.count)"
-    Write-Verbose "Critical  = $($Critical.count)"
-    Write-Verbose "Important = $($Important.count)"
-    Write-Verbose "Other     = $($other.count)"
+    Write-Host "Total     = $($SearchResult.updates.count)"
+    Write-Host "Critical  = $($Critical.count)"
+    Write-Host "Important = $($Important.count)"
+    Write-Host "Other     = $($other.count)"
 }
