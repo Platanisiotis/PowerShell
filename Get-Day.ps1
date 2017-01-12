@@ -1,5 +1,5 @@
-﻿#Requires -Version 3.0
-# Issue with the last days and first days of the month missing, Check this afternon
+#Requires -Version 3.0
+# Issue with the last days and first days of the month missing
 Function Get-Day 
 {
     [CmdletBinding(SupportsShouldProcess=$true, 
