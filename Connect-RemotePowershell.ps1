@@ -5,10 +5,10 @@ Function Connect-RemotePowershell($ServerName)
     {
         Start-Service WinRM -Confirm:$false
     }
-    $curValue = (get-item wsman:\localhost\Client\TrustedHosts).value
-    if ($curValue -notlike $ServerName)
+    $CurrentValue = (get-item wsman:\localhost\Client\TrustedHosts).value
+    if ($CurrentValue -notlike "*$ServerName*")
     {
-        Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$curValue, $ServerName"
+        Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$CurrentValue, $ServerName"
     }
     $Credential = Get-Credential
     Enter-PSSession -ComputerName $ServerName -Credential $Credential -Verbose
