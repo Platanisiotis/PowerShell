@@ -2,13 +2,6 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "publicIPAddresses_p2svpngwpip_name": {
-            "value": null
-        },
-        "virtualNetworks_p2svpnvn_name": {
-            "value": null
-        },
-// Below are unmodified imported parameters
 	    "virtualNetworkName": {
             "value": "P2PVPNVN"
         },
