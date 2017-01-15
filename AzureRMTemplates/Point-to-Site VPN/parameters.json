@@ -1,39 +1,12 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-	    "virtualNetworkName": {
-            "value": "P2PVPNVN"
+        "publicIPAddresses_p2svpngwpip_name": {
+            "value": null
         },
-        "gatewayPublicIPName": {
-            "value": "P2PVPNGWPIP"
-        },
-        "gatewayName": {
-            "value": "P2PVPNGW"
-        },
-        "vnetAddressPrefix": {
-            "value": "10.0.0.0/16"
-        },
-        "gatewaySubnetPrefix": {
-            "value": "10.0.2.0/24"
-        },
-        "gatewaySku": {
-	    "value": "Basic"
-        },
-        "vpnClientAddressPoolPrefix": {
-            "value": "10.1.0.0/24"
-        },
-        "clientRootCertName": {
-            "value": "Azure-Root-Certificate"
-        },
-        "clientRootCertData": {
-            "value": "MIIDGjCCAgagAwIBAgIQse7WEh0noK5JifeX90+FaTAJBgUrDgMCHQUAMCExHzAdBgNVBAMTFkF6dXJlLVJvb3QtQ2VydGlmaWNhdGUwHhcNMTcwMTE0MjAxMzA0WhcNMzkxMjMxMjM1OTU5WjAhMR8wHQYDVQQDExZBenVyZS1Sb290LUNlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzFxNw/n1EETBVzz+dc9nHdfdkKkBP71en0EXQJai4/iDY1T0510/H2yqNGLsBwVVHRD16zDHPzktI9TturASEfmBWqIKqVXv61xnTj3nQt6DruOn8k+jXNIM2RCO6D4Ylfyrlo5h0apY1ov7S1jvy8MFT7s3T9eM5N+OfokvmfelyWnJkWOuO1tBOJZfDBieOAQdmMNkYcdFi+Lwu+wkP/Cl4zDgH3FlJtObPLI2ZflW4WJHGEeKkNGg985uIcVspVHZl5xlZuRGuLwSO9U2TpU8eRgVlSg1BRWR2T3Sha7Iz9ClkW+Q85DA5K97ALtywfT4SidmbwF9+xTzOPndpwIDAQABo1YwVDBSBgNVHQEESzBJgBCY0KwyKdVz9jJJz8Y23EKToSMwITEfMB0GA1UEAxMWQXp1cmUtUm9vdC1DZXJ0aWZpY2F0ZYIQse7WEh0noK5JifeX90+FaTAJBgUrDgMCHQUAA4IBAQC9sCvduc0Doq58KdEaAoM2FO+Cu2pneld4Stt6gOO+crOfA+pznChosJYb4FqinbHHEOm5ZI6Cx+uPy0+l+qjMUmsSiB1n4OQxY4UbQ629tMCftWxVSKa7T2cLhGPLaA8nysneZuppM3mGEMWQsFexEuE7/Yj9l2bYGNu6RrRqz3iWcLHM6rqbnyZdEvnI+OwxsPRE199OjEmalweG4B+U3ZSRk5cTANwc/7wyJIFW0XhqLyJH0MYRg/DM8eXU4FVHsk1VGBDLYIRU7I+MIkiKU9P+tT+Ym0Ur/icLZlEzUCP9yVtYu122MiXu9rF2i1d2rEXmhqPkv3yvfbw6P4mR"
-        },
-        "revokedCertName": {
-            "value": "Madeupcert"
-        },
-        "revokedCertThumbprint": {
-            "value": "633EBFFBD01B6049D61E3CF059CFD940C8CE5780"
+        "virtualNetworks_p2svpnvn_name": {
+            "value": null
         }
     }
 }
