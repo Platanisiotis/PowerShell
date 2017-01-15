@@ -78,7 +78,8 @@ Select-AzureRmSubscription -SubscriptionID $subscriptionId;
 $resourceProviders = @("microsoft.network");
 if($resourceProviders.length) {
     Write-Host "Registering resource providers"
-    foreach($resourceProvider in $resourceProviders) {
+    foreach($resourceProvider in $resourceProviders) 
+    {
         RegisterRP($resourceProvider);
     }
 }
@@ -88,20 +89,25 @@ $resourceGroup = Get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction 
 if(!$resourceGroup)
 {
     Write-Host "Resource group '$resourceGroupName' does not exist. To create a new resource group, please enter a location.";
-    if(!$resourceGroupLocation) {
+    if(!$resourceGroupLocation) 
+    {
         $resourceGroupLocation = Read-Host "resourceGroupLocation";
     }
     Write-Host "Creating resource group '$resourceGroupName' in location '$resourceGroupLocation'";
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $resourceGroupLocation
 }
-else{
+else
+{
     Write-Host "Using existing resource group '$resourceGroupName'";
 }
 
 # Start the deployment
 Write-Host "Starting deployment...";
-if(Test-Path $parametersFilePath) {
+if(Test-Path $parametersFilePath) 
+{
     New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
-} else {
+} 
+else 
+{
     New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
 }
