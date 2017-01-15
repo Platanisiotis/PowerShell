@@ -41,10 +41,10 @@ param(
  $deploymentName,
 
  [string]
- $templateFilePath = "template.json",
+ $templateFilePath = "https://github.com/Platanisiotis/PowerShell/blob/master/AzureRMTemplates/Point-to-Site%20VPN/template.json",
 
  [string]
- $parametersFilePath = "parameters.json"
+ $parametersFilePath = "https://github.com/Platanisiotis/PowerShell/blob/master/AzureRMTemplates/Point-to-Site%20VPN/parameters.json"
 )
 
 <#
