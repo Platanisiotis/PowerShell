@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "publicIPAddresses_p2svpngwpip_name": {
+            "defaultValue": "p2svpngwpip",
+            "type": "String"
+        },
+        "virtualNetworks_p2svpnvn_name": {
+            "defaultValue": "p2svpnvn",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/46f6e10b-ce68-47da-a10a-8088ee871859/resourceGroups/p2svpn/providers/Microsoft.Network/publicIPAddresses/p2svpngwpip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_p2svpngwpip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "australiaeast",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/46f6e10b-ce68-47da-a10a-8088ee871859/resourceGroups/p2svpn/providers/Microsoft.Network/virtualNetworks/p2svpnvn'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_p2svpnvn_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "australiaeast",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "AzureSubnet",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24"
+                        }
+                    },
+                    {
+                        "name": "GatewaySubnet",
+                        "properties": {
+                            "addressPrefix": "10.0.2.0/24"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        }
+    ]
+}
