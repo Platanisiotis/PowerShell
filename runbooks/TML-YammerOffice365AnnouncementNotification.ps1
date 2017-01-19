@@ -17,7 +17,7 @@ foreach ($EventToday in $EventsToday)
 
     Send-MailMessage `
         -To "5524516+themissinglink.com.au@yammer.com" `
-        -Cc "alexander@platanisiotis.com" `
+        -Cc "aplatanisiotis@themissinglink.com.au" `
         -Subject "$(($EventToday.Title).trim())" `
         -SmtpServer "smtp.office365.com" `
         -Credential $YammerCreds `
