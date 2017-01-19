@@ -7,7 +7,7 @@ $jsonPayload = (@{lastCookie=$cookie;locale="en-US";preferredEventTypes=@(2)} | 
 $events = (Invoke-RestMethod -ContentType "application/json" -Method Post -Uri "https://api.admin.microsoftonline.com/shdtenantcommunications.svc/GetEvents" -Body $jsonPayload)
 foreach ($event in $events.Events) 
 {
-    if ($event.LastUpdatedTime.dayofyear -eq (get-date).DayOfYear) {$EventsToday += $event}
+    if ($event.LastUpdatedTime.dayofyear -eq (get-date).AddDays(-1).DayOfYear) {$EventsToday += $event}
 }
 foreach ($EventToday in $EventsToday)
 {
