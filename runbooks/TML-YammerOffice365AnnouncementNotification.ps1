@@ -23,6 +23,6 @@ foreach ($EventToday in $EventsToday)
         -Credential $YammerCreds `
         -UseSsl:$true `
         -Port "587" `
-        -Body "$($EventFormated | Out-String)" `
+        -Body "$($EventFormated | Out-String)AP Bot" `
         -From "svc_Email_Script_Account@themissinglink.com.au"
 }
