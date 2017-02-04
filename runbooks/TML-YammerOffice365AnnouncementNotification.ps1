@@ -17,7 +17,7 @@ foreach ($EventToday in $EventsToday)
 
         $($EventToday.ExternalLink.ToString())
         $($EventToday.Id.ToString())"
-    $requestBody.group_id = "9894045"
+    $requestBody.group_id = "5524516"
     $requestBody = ConvertTo-Json $requestBody
     $headers = New-Object 'System.Collections.Generic.Dictionary[[String],[String]]'
     $headers.Add('Authorization', 'Bearer ' + $(Get-AutomationVariable -Name 'AP Bot Bearer String for Yammer'))
