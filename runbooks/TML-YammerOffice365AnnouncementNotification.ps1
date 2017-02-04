@@ -1,6 +1,6 @@
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
 $EventsToday = @()
 $Office365creds = Get-AutomationPSCredential -Name 'reporting platanisiotis com'
-$YammerCreds = Get-AutomationPSCredential -Name 'tml reporting'
 $jsonPayload = (@{userName=$Office365creds.username;password=$Office365creds.GetNetworkCredential().password;} | convertto-json).tostring()
 $cookie = (Invoke-RestMethod -ContentType "application/json" -Method Post -Uri "https://api.admin.microsoftonline.com/shdtenantcommunications.svc/Register" -Body $jsonPayload).RegistrationCookie
 $jsonPayload = (@{lastCookie=$cookie;locale="en-US";preferredEventTypes=@(2)} | convertto-json).tostring()
@@ -11,18 +11,16 @@ foreach ($event in $events.Events)
 }
 foreach ($EventToday in $EventsToday)
 {
-    $EventFormated = $EventToday | 
-        Select-Object ID, ExternalLink -ExpandProperty Messages -ErrorAction SilentlyContinue | 
-            Format-List MessageText, ID, ExternalLink
+    $requestBody = @{}
+    $requestBody.body = "$($EventToday.Title.ToString())
+        $(($EventToday.Messages.MessageText).Replace('“','').Replace('”',''))
 
-    Send-MailMessage `
-        -To "5524516+themissinglink.com.au@yammer.com" `
-        -Cc "aplatanisiotis@themissinglink.com.au" `
-        -Subject "$(($EventToday.Title).trim())" `
-        -SmtpServer "smtp.office365.com" `
-        -Credential $YammerCreds `
-        -UseSsl:$true `
-        -Port "587" `
-        -Body "$($EventFormated | Out-String)AP Bot" `
-        -From "svc_Email_Script_Account@themissinglink.com.au"
+        $($EventToday.ExternalLink.ToString())
+        $($EventToday.Id.ToString())"
+    $requestBody.group_id = "10567926"
+    $requestBody = ConvertTo-Json $requestBody
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[String],[String]]'
+    $headers.Add('Authorization', 'Bearer ' + "474903-mCWG5dY3DkC5VwAwEvb0Kw")
+    $target = 'https://www.yammer.com/api/v1/messages.json'
+    $response = Invoke-RestMethod $target -Headers $headers -Method POST -Body $requestBody -ContentType application/json
 }
