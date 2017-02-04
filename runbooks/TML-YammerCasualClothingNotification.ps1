@@ -10,7 +10,7 @@ If ($x -ge "10")
     $requestBody.group_id = "9894045"
     $requestBody = ConvertTo-Json $requestBody
     $headers = New-Object 'System.Collections.Generic.Dictionary[[String],[String]]'
-    $headers.Add('Authorization', 'Bearer ' + "474903-mCWG5dY3DkC5VwAwEvb0Kw")
+    $headers.Add('Authorization', 'Bearer ' + $(Get-AutomationVariable -Name 'AP Bot Bearer String for Yammer'))
     $target = 'https://www.yammer.com/api/v1/messages.json'
     $response = Invoke-RestMethod $target -Headers $headers -Method POST -Body $requestBody -ContentType application/json
 }
