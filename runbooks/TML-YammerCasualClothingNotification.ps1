@@ -7,7 +7,7 @@ If ($x -ge "10")
     $requestBody.body = "Tomorrow will be between $y - $x degrees, so be sure to wear casual clothing and bring a spare set of business clothes if you will be seeing a client.
     
     The temperature will be checked every afternoon at 5PM."
-    $requestBody.group_id = "10567926"
+    $requestBody.group_id = "9894045"
     $requestBody = ConvertTo-Json $requestBody
     $headers = New-Object 'System.Collections.Generic.Dictionary[[String],[String]]'
     $headers.Add('Authorization', 'Bearer ' + "474903-mCWG5dY3DkC5VwAwEvb0Kw")
