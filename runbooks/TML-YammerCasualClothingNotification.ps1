@@ -14,3 +14,16 @@ If ($x -ge "30")
     $target = 'https://www.yammer.com/api/v1/messages.json'
     $response = Invoke-RestMethod $target -Headers $headers -Method POST -Body $requestBody -ContentType application/json
 }
+if ($x -eq "29") 
+{
+    $requestBody = @{}
+    $requestBody.body = "Tomorrow will be between $y - $x degrees, so be sure to wear business clothing. One degree off; unlucky!
+    
+    The temperature will be checked every afternoon at 5PM."
+    $requestBody.group_id = "9894045"
+    $requestBody = ConvertTo-Json $requestBody
+    $headers = New-Object 'System.Collections.Generic.Dictionary[[String],[String]]'
+    $headers.Add('Authorization', 'Bearer ' + $(Get-AutomationVariable -Name 'AP Bot Bearer String for Yammer'))
+    $target = 'https://www.yammer.com/api/v1/messages.json'
+    $response = Invoke-RestMethod $target -Headers $headers -Method POST -Body $requestBody -ContentType application/json
+}
