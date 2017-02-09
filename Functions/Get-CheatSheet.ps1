@@ -132,7 +132,8 @@ function Get-CheatSheet
                     ('$OFS','This is the output field separator used when converting an array to a string.'),
                     ('$ShellID','This is the identifier for the shell; this value is used by the shell to determine the execution policy and what profiles are run at startup.'),
                     ('$StackTrace','This contains detailed stack trace information about the last error.'),
-                    ('$using','?????')            
+                    ('$Using','This is a scope modifier that identifies a local variable in a remote command. By default, variables in remote commands are assumed to be defined in the remote session.'),
+                    ('$Global','This is a scope modifier that identifies a variable to be referenced in the global scope.'),
                 )
                 foreach ($Stat in $CollectionStats)
                 {
