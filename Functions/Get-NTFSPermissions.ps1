@@ -57,7 +57,6 @@ Function Get-NTFSPermissions
             $CollectionLog                 = $null
             $ProcessedFolders              = $null
 
-
             # Create the default header for the spreadsheet and add it to memory
             $Measure_SpreadsheetHeaderNaming  = Measure-Command 
             {
@@ -130,7 +129,7 @@ Function Get-NTFSPermissions
             }
 
             # Create a properties herestring with the values that make sense, this will be used for the clixml log
-            $ObjectProperties = @{`
+            $Object = [pscustomobject]@{`
                 'Directory'       = $Path
                 'Folders'         = $($Folders.Count)
                 'ReadErrors'      = $Error_FolderRecurseExceptions.count
@@ -138,10 +137,7 @@ Function Get-NTFSPermissions
                 'SpreadsheetSize' = $((Get-ChildItem $OutPutFile).Length)
                 'Time'            = $($TotalTimePerPath)
             }
-
-            # Create an object, and add those values to the object
-            $Object                   = New-Object -TypeName PSObject -Property $ObjectProperties
-
+	    
             # Add each object to the collection
             [object[]]$Collection    += $Object
 
@@ -185,11 +181,10 @@ Function Get-NTFSPermissions
         $CollectionFormatted
 
         # Create a properties herestring with the values that make sense
-        $TotalsProps = @{'Total Folders Recursed'  = $FoldersTotalCount
-                         'Total Time'              = $TotalTime}
-
-        # Create an object, and add those values to the object
-        $Totals      = New-Object -TypeName PSObject -Property $TotalsProps
+        $Totals = [pscustomobject]@{
+		'Total Folders Recursed'  = $FoldersTotalCount
+		'Total Time'              = $TotalTime
+	}
 
         # Add Totals to the pipeline
         $Totals | Export-Clixml -Path ("$LogLocation"+"$Prefix.PermissionsTotalsLog.clixml")
@@ -213,15 +208,12 @@ Function Get-NTFSPermissions
             # For each one of the errors, collect the reason, folder and exception
             foreach ($FolderRecurseException in $Error_FolderRecurseExceptionsTotal) 
             {
-                $ErrorObjectProperties = @{`
+                $ErrorObject = [pscustomobject]@{`
                     'Reason'          = $FolderRecurseException.ErrorCategory_reason 
                     'Folder'          = $FolderRecurseException.ErrorCategory_TargetName
                     'Exception'       = $FolderRecurseException.Exception.Message
                 }
             
-                # Create an object, and add those values to the object
-                $Error_Object      = New-Object -TypeName PSObject -Property $ErrorObjectProperties
-
                 # Add each of the errors to a collection
                 $Error_Collection += $Error_Object
             }
