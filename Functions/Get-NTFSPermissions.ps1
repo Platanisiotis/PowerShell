@@ -59,22 +59,19 @@ Function Get-NTFSPermissions
             $ProcessedFolders              = $null
 
             # Create the default header for the spreadsheet and add it to memory
-            $Measure_SpreadsheetHeaderNaming  = Measure-Command 
-            {
+            $Measure_SpreadsheetHeaderNaming  = Measure-Command {
                 $Header     = "Path,IdentityReference,AccessControlType,FileSystemRights,IsInherited"
             }
             Write-Verbose -Message "1/5 -Header content created for $Path"
 
             # Create the default file name for the spreadsheet and add it to memory
-            $Measure_SpreadsheetNaming        = Measure-Command 
-            {
+            $Measure_SpreadsheetNaming        = Measure-Command {
                 $OutPutFile = ($LogLocation+$Prefix+"_"+$($($Path.ToString().Split("\"))[-1])+".csv")
             } 
             Write-Verbose -Message "2/5 - Filename created for $Path"
 
             # Create the spreadsheet with no content apart from the header, write to disk
-            $Measure_CreateSpreadsheetHeader  = Measure-Command 
-            {
+            $Measure_CreateSpreadsheetHeader  = Measure-Command {
                 Add-Content -Value $Header -Path $OutPutFile
             }
             Write-Verbose -Message "3/5 -Spreadsheet template for $Path created"
@@ -82,16 +79,14 @@ Function Get-NTFSPermissions
             # Collect all the recursed directories under the path specified. 
             # If errors are found add t9hem to the Error_FolderRecurseExceptions variable, although silently continue
             Write-Verbose -Message "4/5 -Collecting the folder structure for $Path"
-            $Measure_CollectingFolders        = Measure-Command 
-            {
+            $Measure_CollectingFolders        = Measure-Command {
                 $Folders     = Get-ChildItem $Path -recurse -ErrorAction SilentlyContinue -ErrorVariable +Error_FolderRecurseExceptions| Where-Object {$_.psiscontainer -eq $true}
             }
             [object[]]$Error_FolderRecurseExceptionsTotal += $Error_FolderRecurseExceptions
             Write-Verbose -Message "5/5 -Folder structure for $Path collected"
 
             # For each of the recursed directories that were processe without error, do the following
-            $Measure_FolderACLCollection       = Measure-Command
-            {
+            $Measure_FolderACLCollection       = Measure-Command {
                 foreach ($Folder in $Folders)
                 {
                     if ($Folder.FullName -ne $Error_FolderRecurseExceptions.errorCategory_targetname) 
@@ -130,7 +125,7 @@ Function Get-NTFSPermissions
             }
 
             # Create a properties herestring with the values that make sense, this will be used for the clixml log
-            $Object = [pscustomobject]@{`
+            $Object = [pscustomobject]@{
                 'Directory'       = $Path
                 'Folders'         = $($Folders.Count)
                 'ReadErrors'      = $Error_FolderRecurseExceptions.count
@@ -209,7 +204,7 @@ Function Get-NTFSPermissions
             # For each one of the errors, collect the reason, folder and exception
             foreach ($FolderRecurseException in $Error_FolderRecurseExceptionsTotal) 
             {
-                $ErrorObject = [pscustomobject]@{`
+                $ErrorObject = [pscustomobject]@{
                     'Reason'          = $FolderRecurseException.ErrorCategory_reason 
                     'Folder'          = $FolderRecurseException.ErrorCategory_TargetName
                     'Exception'       = $FolderRecurseException.Exception.Message
