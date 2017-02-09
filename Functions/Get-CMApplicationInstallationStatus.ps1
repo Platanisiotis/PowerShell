@@ -1,4 +1,4 @@
-Function Get-CMSoftwareInventory 
+Function Get-CMApplicationInstallationStatus 
 {
     [CmdletBinding()]
     [OutputType([String])]
@@ -21,7 +21,7 @@ Function Get-CMSoftwareInventory
         SMS_R_System inner join SMS_G_System_ADD_REMOVE_PROGRAMS on 
         SMS_G_System_ADD_REMOVE_PROGRAMS.ResourceId = 
         SMS_R_System.ResourceId where 
-        SMS_G_System_ADD_REMOVE_PROGRAMS.DisplayName like $([char]0x0022)$([char]0x0025)$SoftwareName$([char]0x0025)$([char]0x0022)"
+        SMS_G_System_ADD_REMOVE_PROGRAMS.DisplayName like '%$SoftwareName%'"
         New-CMQuery -Expression $CMQueryExpression -Name $("Installed-$SoftwareName") | Out-Null
         $Values = Invoke-CMQuery -Name $("Installed-$SoftwareName")
         switch ($PersistCMQuery)
