@@ -17,6 +17,7 @@
 #>
 Function Get-NTFSPermissions
 {
+    [CmdletBinding()]
     Param(
         
         # Regex to assure the input is a UNC path that ends with a backslash. This is the only thing that doesn't work in Powershell v2
