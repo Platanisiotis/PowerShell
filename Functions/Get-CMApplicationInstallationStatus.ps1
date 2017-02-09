@@ -44,7 +44,7 @@ Function Get-CMApplicationInstallationStatus
                     [pscustomobject]@{
                     "ComputerName" = $value.SMS_R_System.NetbiosName
                     "ProgramName" = $value.SMS_G_System_ADD_REMOVE_PROGRAMS.Displayname
-                    "DeviceDescription" = (invoke-command -ComputerName "cprdcresw00" {Get-ADComputer $($Using:value.SMS_R_System.NetbiosName) -Property Description | select Description }).Description
+                    "DeviceDescription" = (invoke-command -ComputerName $env:LOGONSERVER.replace("\\","") {Get-ADComputer $($Using:value.SMS_R_System.NetbiosName) -Property Description | select Description }).Description
                     }
                 }
             }
