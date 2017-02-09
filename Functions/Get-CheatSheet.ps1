@@ -1,4 +1,4 @@
-﻿#Requires -Version 3.0
+#Requires -Version 3.0
 function Get-CheatSheet
 {
     [CmdletBinding(PositionalBinding=$false,
@@ -13,26 +13,22 @@ function Get-CheatSheet
                    ValueFromPipelineByPropertyName=$true, 
                    ValueFromRemainingArguments=$false, 
                    Position=0)]
-        [ValidateSet("Operators", "Classes", "Parameter Attribute Property", "Default Variables","ADS Constants","Debugging Commands","UTF-8 Unicode")]
+        [ValidateSet("Operators", "Classes", "Parameter_Attribute_Property", "Default_Variables","ADS_Constants","Debugging_Commands","UTF-8_Unicode")]
         [Alias("cheat")] 
         $Reference
     )
 
     Begin
     {
-        # Setting up the empty collection that will be used to creaete System.Management.Automation.PSCustomObject
         $Object = @()
 
-    } # Close Begin
+    }
     Process
     {
-        # $Reference - System.String
         switch ($Reference) 
         {
-            # Switch option for $Reference
             Operators 
             {
-                # $CollectionStats - System.Object[]
                 $CollectionStats = @(
                     ('-eq','Equals','$a = 5 ; $a -eq 4','False'),
                     ('-ne','Does not equal','$a = 5 ; $a -ne 4','True'),
@@ -46,29 +42,18 @@ function Get-CheatSheet
                     ('-notmatch','Regular expression comparison','$a = “This is Text” ; $a -notmatch “Text$”','False')
                 )
 
-                # $Stat - System.String
-                # $CollectionStats - System.Object[]
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{
+                    [pscustomobject]@{
                         "Operator"= $Stat[0];
                         "Description"= $Stat[1];
                         "Example"= $Stat[2];
                         "Result"= $Stat[3];
-                    } # Close $Properties
+                    }
+                }
+            }
 
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
 
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-
-            } # Close switch option Operators for $Reference
-
-           # Switch option for $Reference
             Classes
             {
                 # $CollectionStats - System.Object[]
@@ -92,22 +77,15 @@ function Get-CheatSheet
                 # $CollectionStats - System.Object[]
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{"Class"= $Stat[0];
-                                    "Description"= $Stat[1];
-                    } # Close $Properties
-
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
-
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-            } # Close switch option Classes for $Reference
+                    [pscustomobject]@{
+                        "Class"= $Stat[0];
+                        "Description"= $Stat[1];
+                    }
+                }
+            }
 
             # Switch option for $Reference
-            'Parameter Attribute Property'
+            'Parameter_Attribute_Property'
             {
                 # $CollectionStats - System.Object[]
                 $CollectionStats = @(
@@ -119,30 +97,18 @@ function Get-CheatSheet
                     ('ValueFromRemainingArguments','ValueFromRemainingArguments=$true','The parameter collects unassigned arguments.'),
                     ('HelpMessage','HelpMessage=”parameter help info”','A short help message for the parameter is displayed.')
                 )
-                # $Stat - System.String
-                # $CollectionStats - System.Object[]
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{
+                    [pscustomobject]@{
                         "Parameter Attribute Property"= $Stat[0];
                         "Example"= $Stat[1];
                         "Meaning"= $Stat[2];
-                    } # Close $Properties
+                    }
+                }
+            }
 
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
-
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-            } # Close switch option 'Parameter Attribute Property' for $Reference
-
-            # Switch option for $Reference 
-            'Default Variables'
+            Default_Variables
             {
-                # $CollectionStats - System.Object[]
                 $CollectionStats = @( 
                     ('$^','This contains the first token of the last line input into the shell.'),
                     ('$$','This contains the last token of the last line input into the shell.'),
@@ -168,29 +134,17 @@ function Get-CheatSheet
                     ('$StackTrace','This contains detailed stack trace information about the last error.'),
                     ('$using','?????')            
                 )
-                # $Stat - System.String
-                # $CollectionStats - System.Object[]
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{
+                    [pscustomobject]@{
                         "Variable"= $Stat[0];
                         "Description"= $Stat[1]
-                    } # Close $Properties
+                    }
+                }
+            }
 
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
-
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-            } # Close switch option 'Default Variables' for $Reference
-
-            # Switch option for $Reference
-            'ADS Constants'
+            ADS_Constants
             {
-                # $CollectionStats - System.Object[]
                 $CollectionStats = @(
                     ('ADS_UF_SCRIPT','0X0001'),
                     ('ADS_UF_ACCOUNTDISABLE','0X0002'),
@@ -214,29 +168,18 @@ function Get-CheatSheet
                     ('ADS_UF_PASSWORD_EXPIRED','0x800000'),
                     ('ADS_UF_TRUSTED_TO_AUTHENTICATE_FOR_DELEGATION','0x1000000')
                 )
-                # $Stat - System.String
-                # $CollectionStats - System.Object[]
+
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{
+                    [pscustomobject]@{
                         "ADS constant"= $Stat[0];
                         "Value in hexadecimal"= $Stat[1]
-                    } # Close $Properties
+                    }
+                }
+            }
 
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
-
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-            } # Close switch option 'ADS Constants' for $Reference
-
-            # Switch option for $Reference
-            'Debugging Commands'
+            'Debugging_Commands'
             {
-                # $CollectionStats - System.Object[]
                 $CollectionStats = @(
                     ('S','Step-Into','Executes the next statement and then stops.'),
                     ('V','Step-Over','Executes the next statement, but skips functions and invocations. The skipped statements are executed, but not stepped through.'),
@@ -250,30 +193,18 @@ function Get-CheatSheet
                     ('Enter','Repeat','Repeats the last command if it was Step-Into, Step-Over, or List. Otherwise, represents a submit action.'),
                     ('H or ?','Help','Displays the debugger command help.')
                 )
-                # $Stat - System.String
-                # $CollectionStats - System.Object[]
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{
+                    [pscustomobject]@{
                         "Keyboard Shortcut"= $Stat[0];
                         "Name"= $Stat[1];
                         "Meaning"=$Stat[2]
-                    } # Close $Properties
+                    }
+                }
+            }
 
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
-
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-            } # Close switch option 'Debugging Commands' for $Reference
-
-            # Switch option for $Reference
-            'UTF-8 Unicode'
+            UTF-8_Unicode
             {
-                # $CollectionStats - System.Object[]
                 $CollectionStats = @(
                     ('0x0000','','0','<control>'),
                     ('0x0001','','1','<control>'),
@@ -532,30 +463,21 @@ function Get-CheatSheet
                     ('0x00FE','þ','c3 be','LATIN SMALL LETTER THORN'),
                     ('0x00FF','ÿ','c3 bf','LATIN SMALL LETTER Y WITH DIAERESIS')
                 )
-                # $Stat - System.String
-                # $CollectionStats - System.Object[]
+
                 foreach ($Stat in $CollectionStats)
                 {
-                    # $Properties - System.Collections.Specialized.OrderedDictionary
-                    $Properties = [ordered]@{
+                    [pscustomobject]@{
                         "Name"= $Stat[3];
                         "Character"= $Stat[1];
                         "Unicode Code Point"=$Stat[0]
                         "UTF-8 (hex.)"=$Stat[2]
-                    } # Close $Properties
-
-                    # $Object - System.Management.Automation.PSCustomObject
-                    $Object += New-Object -TypeName PSObject -Property $Properties
-
-                }  # Close foreach ($Stat in $CollectionStats)
-
-                # $Object - System.Management.Automation.PSCustomObject
-                $Object
-            } # Close switch option 'UTF-8 Unicode' for $Reference
+                    }
+                }
+            }
         }
     
     }
     End
     {
-    } # Close End
+    }
 }
