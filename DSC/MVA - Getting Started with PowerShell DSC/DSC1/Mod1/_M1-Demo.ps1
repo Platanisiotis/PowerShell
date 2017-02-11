@@ -1,6 +1,4 @@
-﻿
-
-# 1. Resources for DSC
+﻿# 1. Resources for DSC
 # Show web location of Reskit - Show Reskit Zip
 Find-Module -Name x*   #(Also explain X and C)
 Find-DSCResource

@@ -3,7 +3,7 @@ Configuration LCMPUSH
 {	
 	Node $Computername
 	{
-		SEttings
+		Settings
 		{
 			AllowModuleOverwrite = $True
             ConfigurationMode = 'ApplyAndAutoCorrect'
@@ -16,7 +16,3 @@ $Computername = 's1','s2'
 
 # Create the Computer.Meta.Mof in folder
 LCMPush -OutputPath c:\DSC\LCM
-
-
-
-

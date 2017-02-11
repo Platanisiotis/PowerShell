@@ -1,6 +1,4 @@
-﻿
-
-# 1.Configuring SMB Pull Server - NO TARGET LCM Till next module
+﻿# 1.Configuring SMB Pull Server - NO TARGET LCM Till next module
 
 # Create folder and share on DC for MOF and Resource modules
 New-Item -Path C:\DSCSMB -ItemType Directory
@@ -58,4 +56,3 @@ Start-DscConfiguration -Path C:\DSC\HTTPS -ComputerName s4 -Verbose -Wait
 Start-Process -FilePath iexplore.exe https://s4.company.pri:8080/PSDSCPullServer.svc
 Copy-Item C:\scripts\DSC1\Mod3\web.config -Destination \\s4\c$\inetpub\wwwroot\PSDSCPullServer -Force
 Start-Process -FilePath iexplore.exe https://s4.company.pri:8080/PSDSCPullServer.svc
-

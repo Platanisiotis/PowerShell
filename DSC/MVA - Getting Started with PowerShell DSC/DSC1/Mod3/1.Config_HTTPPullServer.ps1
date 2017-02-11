@@ -27,6 +27,7 @@
             ConfigurationPath       = "$env:PROGRAMFILES\WindowsPowerShell\DscService\Configuration"
             State                   = "Started"
             DependsOn               = "[WindowsFeature]DSCServiceFeature"
+            UseSecurityBestPractices = $true
         }
 
         xDscWebService PSDSCComplianceServer
@@ -37,13 +38,11 @@
             PhysicalPath            = "$env:SystemDrive\inetpub\wwwroot\PSDSCComplianceServer"
             CertificateThumbPrint   = "AllowUnencryptedTraffic"
             State                   = "Started"
-            IsComplianceServer      = $true
             DependsOn               = ("[WindowsFeature]DSCServiceFeature","[xDSCWebService]PSDSCPullServer")
+            UseSecurityBestPractices = $true
         }
     }
 }
 
 # Generate MOF
-
-HTTPPullServer -OutputPath C:\DSC\HTTP
-
+HTTPPullServer -OutputPath "C:\Program Files\WindowsPowerShell\Modules\DscMetaConfigs"

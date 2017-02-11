@@ -3,7 +3,7 @@
     # Modules must exist on target pull server
     Import-DSCResource -ModuleName xPSDesiredStateConfiguration
 
-    Node s4
+    Node 000DC00
     {
         WindowsFeature DSCServiceFeature
         {
@@ -27,6 +27,7 @@
             ConfigurationPath       = "$env:PROGRAMFILES\WindowsPowerShell\DscService\Configuration"
             State                   = "Started"
             DependsOn               = "[WindowsFeature]DSCServiceFeature"
+            UseSecurityBestPractices = $true
         }
 
         xDscWebService PSDSCComplianceServer
@@ -37,7 +38,7 @@
             PhysicalPath            = "$env:SystemDrive\inetpub\wwwroot\PSDSCComplianceServer"
             CertificateThumbPrint   = "AllowUnencryptedTraffic"
             State                   = "Started"
-            IsComplianceServer      = $true
+            UseSecurityBestPractices = $true
             DependsOn               = ("[WindowsFeature]DSCServiceFeature","[xDSCWebService]PSDSCPullServer")
         }
     }
@@ -45,4 +46,3 @@
 
 # Generate MOF
 HTTPSPullServer -OutputPath C:\DSC\HTTPS
-

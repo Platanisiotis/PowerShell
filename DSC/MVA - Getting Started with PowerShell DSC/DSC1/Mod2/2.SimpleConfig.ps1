@@ -1,7 +1,9 @@
-﻿configuration ConfigName {
-    Node $ComputerName {
-
-        WindowsFeature IIS{
+﻿configuration ConfigName 
+{
+    Node $ComputerName 
+    {
+        WindowsFeature IIS 
+        {
             Name = 'web-server'
             Ensure = 'Present'
         }

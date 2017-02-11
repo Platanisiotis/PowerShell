@@ -1,13 +1,12 @@
-﻿
-
-# 1.Writing a DSC Configuration
+﻿# 1.Writing a DSC Configuration
 Configuration Name
 {
     Node s3 
     {
         WindowsFeature Demo
         {
-
+            Name = 'web-server'
+            Ensure = 'Present'
         }
     }
 }
@@ -53,8 +52,3 @@ Remove-WindowsFeature -name Web-Server -Restart
 Start-Process -FilePath iexplore http://s1 #should fail
 Test-DscConfiguration -CimSession s1
 Get-DscConfiguration -CimSession s1
-
-
-
-
-
