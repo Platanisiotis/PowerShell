@@ -1,0 +1,14 @@
+﻿TOPIC About_MVADemo
+
+SHORT DESCRIPTION
+    This contains two resources to manage Widnows Features and Services.
+
+EXAMPLES
+
+    MVAFeature [String] #ResourceName
+    {
+        FeatureName = [string]
+        [DependsOn = [string[]]]
+        [Ensure = [string]{ Absent | Present }]
+        [Installed = [bool]]
+    }

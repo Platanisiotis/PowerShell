@@ -1,0 +1,16 @@
+#!/bin/bash
+mysqladmin -u root password P@ssw0rd
+mysql -u root -pP@ssw0rd -e "CREATE DATABASE WPDB"
+mysql -u root -pP@ssw0rd -e "CREATE USER wpuser@localhost"
+mysql -u root -pP@ssw0rd -e "SET PASSWORD FOR wpuser@localhost = PASSWORD('password')"
+mysql -u root -pP@ssw0rd -e "GRANT ALL PRIVILEGES ON WPDB.* TO wpuser@localhost IDENTIFIED BY 'password'"
+mysql -u root -pP@ssw0rd -e "FLUSH PRIVILEGES"
+
+mkdir -p /opt/downloads
+if [ ! -f /opt/downloads/latest.zip ]; then
+	wget -P /opt/downloads https://wordpress.org/latest.zip
+fi
+unzip -q -o /opt/downloads/latest.zip -d /var/www/html
+service httpd restart
+exit 0
+

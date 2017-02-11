@@ -1,0 +1,7 @@
+#!/bin/sh
+rpm -q httpd 
+rpm -q mod_ssl
+echo "Tables in WPDB:"
+mysql -u wpuser -ppassword -e 'SHOW TABLES IN WPDB; '
+ls -d /var/www/html/wordpress/
+exit 0

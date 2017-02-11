@@ -1,0 +1,10 @@
+#!/bin/bash
+yum -y remove httpd mod_ssl
+yum -y remove php mysql mysql-server php-mysql
+yum -y remove unzip wget
+/sbin/chkconfig httpd off
+/sbin/chkconfig --add mysqld
+/sbin/chkconfig mysqld off
+rm -rf /var/www/
+rm -rf /var/lib/mysql/WPDB
+yum -y remove mysql mysql-server

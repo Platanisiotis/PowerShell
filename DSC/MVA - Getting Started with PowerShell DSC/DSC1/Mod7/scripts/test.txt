@@ -1,0 +1,14 @@
+#!/bin/sh
+test=`mysql -u wpuser -ppassword -e "show status" |grep Uptime |wc -l`
+
+if [ "$test" != "2" ]; then
+        echo "fail"
+        exit 1
+fi
+
+if [ ! -e /var/www/html/wordpress/wp-config-sample.php ]; then
+        echo "fail"
+        exit 1
+fi
+
+exit 0
