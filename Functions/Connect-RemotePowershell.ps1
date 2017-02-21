@@ -1,4 +1,3 @@
-﻿#requires -runasadministrator
 Function Connect-RemotePowershell($ServerName) 
 {
     if ((Get-Service winrm).Status -ne "Running")
