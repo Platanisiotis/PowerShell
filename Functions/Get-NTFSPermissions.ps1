@@ -1,4 +1,3 @@
-#Requires -RunAsAdministrator
 #Requires -Version 3.0
 <#
 .Synopsis
