@@ -11,7 +11,6 @@
                    ValueFromRemainingArguments=$false, 
                    Position=0)]
         [ValidateSet("36887")]
-        [Alias("cheat")] 
         $ID
     )
 
