@@ -17,8 +17,7 @@ Function Get-CMApplicationInstallationStatus
     }
     process 
     {
-        Set-Location "D:\ConfigMgr\Microsoft Configuration Manager\AdminConsole\bin"                                                                                                                  
-        Import-Module ".\ConfigurationManager.psd1"
+        Import-Module "$($ENV:SMS_ADMIN_UI_PATH)\..\ConfigurationManager.psd1"
         Set-Location $(((Get-PSDrive | ? {$_.Provider -like "AdminUI.PS.Provider\CMSite"})[0].name)+":")
         $CMQueryExpression = `
 "select SMS_R_System.NetbiosName, 
